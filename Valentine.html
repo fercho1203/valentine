@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Be My Valentine 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Comic Sans MS", system-ui, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #ff8fb1, #7a001f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #ffb3d9;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .character {
+      width: 220px;
+      margin: 15px auto;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .buttons {
+      position: relative;
+      height: 220px;
+      margin-top: 25px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 14px;
+      font-size: 22px;
+      padding: 18px 34px;
+      transition: all 0.3s ease;
+      position: absolute;
+      font-weight: bold;
+    }
+
+    #yesBtn {
+      background: #1b5e20;
+      color: white;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      z-index: 2;
+    }
+
+    #noBtn {
+      background: #b71c1c;
+      color: white;
+      left: 50%;
+      top: 90px;
+      transform: translateX(-50%) scale(1);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Will you be my Valentine? 💕</h1>
+
+    <!-- Imagen local -->
+    <img
+      src="emma-y-yo.png"
+      class="character"
+      alt="Emma y yo"
+    />
+
+    <div class="buttons">
+      <button id="yesBtn">YES 💚</button>
+      <button id="noBtn">NO 💔</button>
+    </div>
+  </div>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+
+    let noClicks = 0;
+    let noScale = 1;
+    let yesScale = 1;
+
+    const shrinkLimit = 5;
+
+    // Fase 1: NO se achica y YES crece
+    noBtn.addEventListener("click", () => {
+      if (noClicks < shrinkLimit) {
+        noClicks++;
+
+        noScale -= 0.10;
+        yesScale += 0.15;
+
+        noBtn.style.transform = `translateX(-50%) scale(${noScale})`;
+        yesBtn.style.transform = `translateX(-50%) scale(${yesScale})`;
+      }
+    });
+
+    // Fase 2: NO huye infinitamente
+    noBtn.addEventListener("mouseover", () => {
+      if (noClicks >= shrinkLimit) {
+        moveRandom();
+      }
+    });
+
+    function moveRandom() {
+      const padding = 20;
+
+      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+      const randomX = Math.random() * maxX;
+      const randomY = Math.random() * maxY;
+
+      noBtn.style.position = "fixed";
+      noBtn.style.left = randomX + "px";
+      noBtn.style.top = randomY + "px";
+      noBtn.style.transform = `scale(${noScale})`;
+    }
+
+    // Cuando dicen YES
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="text-align:center; padding:40px;">
+          <h1 style="color:#ffb3d9;">YAYYYYY 💕</h1>
+          <p>You just made me the happiest person ever 🥰</p>
+          <p>Happy Valentine’s Day 💖</p>
+        </div>
+      `;
+    });
+  </script>
+
+</body>
+</html>
